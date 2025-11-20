@@ -1,3 +1,5 @@
+/* experimental style sheet -- copy and paste from style.css into here and mess with it! */
+
 /*full page styling*/
 h1,h2,h3,body,table{
     font-family:Helvetica,Arial,sans-serif;
@@ -29,4 +31,5 @@ body {
    a:hover{}
    a:selected{}
 }
+
 
