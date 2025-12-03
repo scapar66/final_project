@@ -1,3 +1,65 @@
+
+header, nav, main, aside, footer {
+    padding: 1rem;
+    margin: 0.5rem;
+    border-radius: 5px;
+}
+
+/* Color Scheme */
+header, footer { background: #333; color: white; text-align: center; }
+nav { background: #007BFF; color: white; }
+nav a { color: white; text-decoration: none; margin-right: 1rem; }
+main { background: #fff; flex-grow: 3; } /* Main content grows more */
+aside { background: #e9e9e9; flex-grow: 1; } /* Sidebar grows less */
+
+/* Flexbox Container for Main and Aside */
+.main-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+    justify-content: space-between; /* Distributes space between items */
+}
+
+/* Responsive Design: Stack elements on small screens */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column; /* Stacks items vertically on smaller screens */
+    }
+
+    main, aside {
+        /* On small screens, both main and aside take full width */
+        width: 100%; 
+    }
+}
+
+.styled-table {
+    width: 90%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+    
+}
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+    border: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #e0e0e0;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -91,8 +153,6 @@ color: #a5c3c3;
   color: black;
 }
 
-/*Marianne's table START*/
-
 .calendar-container {
     background-color: #fff;
     border-radius: 4px;
@@ -111,36 +171,7 @@ td.empty {
     background-color: #f9f9f9;
     visibility: hidden;
 }
-
-/*END*/
-
-/*Sophia's table START*/
-
-.table{
-    display:flex;
-    table-layout:auto;
-    border:2px solid white;
-    background-color:white;
-    text-align:center;
-    vertical-align:middle;
-    #tableheadrow{
-        display:table-header-group;
-        background-color:#3C896D;
-    }
-    #tablebody{
-        display:table-row-group;
-    }
-    .tablebody_row{
-        display:table-row;
-    }
-    .table_cell{
-        display:table-cell;
-        padding:10px;
-    }
-}
-
-/*END*/
-
+        
 .gallery {
   display: flex;
   flex-wrap: wrap;
