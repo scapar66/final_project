@@ -91,6 +91,8 @@ color: #a5c3c3;
   color: black;
 }
 
+/*Marianne's table START*/
+
 .calendar-container {
     background-color: #fff;
     border-radius: 4px;
@@ -109,7 +111,36 @@ td.empty {
     background-color: #f9f9f9;
     visibility: hidden;
 }
-        
+
+/*END*/
+
+/*Sophia's table START*/
+
+.table{
+    display:flex;
+    table-layout:auto;
+    border:2px solid white;
+    background-color:white;
+    text-align:center;
+    vertical-align:middle;
+    #tableheadrow{
+        display:table-header-group;
+        background-color:blue;
+    }
+    #tablebody{
+        display:table-row-group;
+    }
+    .tablebody_row{
+        display:table-row;
+    }
+    .table_cell{
+        display:table-cell;
+        padding:10px;
+    }
+}
+
+/*END*/
+
 .gallery {
   display: flex;
   flex-wrap: wrap;
