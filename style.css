@@ -125,7 +125,7 @@ td.empty {
     vertical-align:middle;
     #tableheadrow{
         display:table-header-group;
-        background-color:blue;
+        background-color:#3C896D;
     }
     #tablebody{
         display:table-row-group;
