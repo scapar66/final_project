@@ -7,8 +7,6 @@ header, nav, main, aside, footer {
 
 /* Color Scheme */
 header, footer { background: #333; color: white; text-align: center; }
-nav { background: #007BFF; color: white; }
-nav a { color: white; text-decoration: none; margin-right: 1rem; }
 main { background: #fff; flex-grow: 3; } /* Main content grows more */
 aside { background: #e9e9e9; flex-grow: 1; } /* Sidebar grows less */
 
@@ -57,7 +55,8 @@ aside { background: #e9e9e9; flex-grow: 1; } /* Sidebar grows less */
 }
 
 .styled-table tbody tr:hover {
-    background-color: #e0e0e0;
+    background-color:#009879 ;
+    color:white;
 }
 
 * {
@@ -172,18 +171,6 @@ td.empty {
     visibility: hidden;
 }
         
-.gallery {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0 4px;
-}
-
-.gallery img {
-  flex: 1 1 100px; 
-  margin: 4px;
-  max-width: 30%;
-  height: auto;
-}
 
 .pdf-viewer {
     width: 100%;
