@@ -135,6 +135,13 @@ img {
   float: right;
 }
 
+.table-img {
+    min-width: 100px;
+    max-height: 200px;
+    border-radius: 1px;
+    padding: 1px;
+}
+
 h1 {
   color: black;
 }
@@ -142,6 +149,10 @@ h1 {
 #h2special {
     color: white;
     background-color: black ;
+}
+
+h3 {
+    text-align: left;
 }
 
 h4, p, ul {
