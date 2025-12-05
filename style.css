@@ -119,6 +119,23 @@ td.empty {
     visibility: hidden;
 }
 
+/* For API */
+
+button {
+    padding: 10px;
+    margin: 0 auto;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+button:hover {
+    background-color: #009879;
+}
+
 /* Main Content */
 
 body {
