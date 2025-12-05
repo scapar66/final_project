@@ -1,24 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <title>Home</title>
-    </head>
-    <body>
-        <div id="header">
-            <h1>Music is Fun!</h1>
-            <div class="navbar">
-                <a href="index.html">Home</a>
-                <a href="explore.html">Explore</a>
-                <a href="events.html">Events</a>
-                <a href="streaming.html">Streaming</a>
-            </div>
-        </div>
-     <div id="footer">
-            <small>&copy; 2025 Marianne Benyamin, Sophia Caparros, Caroline Knight Henderson</small></footer>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Explore</title>
+s</head>
+<body>
+    <div id="header">
+        <h1>Music is Fun!</h1>
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="explore.html">Explore</a>
+        <a href="events.html">Events</a>
+        <a href="streaming.html">Streaming</a>
     </div>
+    </div>
+<h1>Explore</h1>
 
-    </body>
+<h2></h2>
+
+<h2>(1) Artist, Release, and Recording Lookup</h2>
+<p>From <a href="https://musicbrainz.org">MusicBrainz</a>.</p>
+<input type="text" id="search-query" placeholder="Enter search term" />
+<select id="search-type">
+  <option value="artist">Artist</option>
+  <option value="release">Release</option>
+  <option value="recording">Recording</option>
+</select>
+<button id="search-btn">Search</button>
+
+<div id="result" class="result-list"></div>
+<div id="details" class="details"></div>
+
+<script>
+const BASE_URL = 'https://musicbrainz.org/ws/2';
+const USER_AGENT = 'MyMusicApp/1.0 ( my-email@example.com )';
+
+async function searchMB(query, type) {
+  const url = `${BASE_URL}/${type}?query=${encodeURIComponent(query)}&fmt=json&limit=10`;
+  const resp = await fetch(url, { headers: { 'User-Agent': USER_AGENT, 'Accept': 'application/json' } });
+  if (!resp.ok) throw new Error('Network response was not ok');
+  return await resp.json();
+}
+
+async function getMBDetails(type, id) {
+  const inc = type === 'artist' ? 'releases+aliases' : type === 'release' ? 'artist-credits+recordings' : 'artist-credits+releases';
+  const url = `${BASE_URL}/${type}/${id}?fmt=json&inc=${inc}`;
+  const resp = await fetch(url, { headers: { 'User-Agent': USER_AGENT, 'Accept': 'application/json' } });
+  if (!resp.ok) throw new Error('Network response was not ok');
+  return await resp.json();
+}
+
+document.getElementById('search-btn').addEventListener('click', async () => {
+  const query = document.getElementById('search-query').value.trim();
+  const type = document.getElementById('search-type').value;
+  const resultDiv = document.getElementById('result');
+  const detailsDiv = document.getElementById('details');
+  resultDiv.innerHTML = 'Searching...';
+  detailsDiv.innerHTML = '';
+
+  try {
+    const data = await searchMB(query, type);
+    const items = data[type + 's'] || [];
+    if (items.length === 0) {
+      resultDiv.innerHTML = 'No results found.';
+      return;
+    }
+    resultDiv.innerHTML = '';
+    items.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'result-item';
+      div.textContent = item.name || item.title;
+      div.addEventListener('click', async () => {
+        detailsDiv.innerHTML = 'Loading details...';
+        try {
+          const details = await getMBDetails(type, item.id);
+          // Render details
+          if (type === 'artist') {
+            detailsDiv.innerHTML = `
+              <h2>${details.name}</h2>
+              <p><strong>Country:</strong> ${details.country || 'Unknown'}</p>
+              <p><strong>Aliases:</strong> ${details.aliases ? details.aliases.map(a=>a.name).join(', ') : 'None'}</p>
+              <p><strong>Releases:</strong> ${details.releases ? details.releases.length : 0}</p>
+            `;
+          } else if (type === 'release') {
+            detailsDiv.innerHTML = `
+              <h2>${details.title}</h2>
+              <p><strong>Artist:</strong> ${details['artist-credit'] ? details['artist-credit'].map(a => a.name).join(', ') : 'Unknown'}</p>
+              <p><strong>Date:</strong> ${details.date || 'Unknown'}</p>
+            `;
+          } else if (type === 'recording') {
+            detailsDiv.innerHTML = `
+              <h2>${details.title}</h2>
+              <p><strong>Artist:</strong> ${details['artist-credit'] ? details['artist-credit'].map(a => a.name).join(', ') : 'Unknown'}</p>
+              <p><strong>Releases:</strong> ${details.releases ? details.releases.map(r => r.title).join(', ') : 'None'}</p>
+            `;
+          }
+        } catch (err) {
+          detailsDiv.textContent = 'Error loading details: ' + err.message;
+          detailsDiv.classList.add('error');
+        }
+      });
+      resultDiv.appendChild(div);
+    });
+  } catch (err) {
+    resultDiv.innerHTML = 'Error: ' + err.message;
+    resultDiv.classList.add('error');
+  }
+});
+</script>
+
+<h2>(2) The Genrenator</h2>
+<p>From <a href="https://binaryjazz.us/genrenator-api">Binary Jazz</a>.</p>
+    <button id="get-genre">Generate New Genre</button>
+    <p> </p>
+    <div id="genre-output">Click to get started!</div>
+<script>
+    async function fetchRandomGenre() {
+        var url="https://binaryjazz.us/wp-json/genrenator/v1/genre";
+        try {
+            var response=await fetch(url);
+            var data=await response.json();
+            return data[0];
+        } 
+        catch (error) {
+            console.error("error:", error);
+            return null;
+        }
+    }
+    document.getElementById("get-genre").addEventListener("click", async () => {
+        var genre=await fetchRandomGenre();
+        var output=document.getElementById("genre-output");
+        if (genre) {
+            output.textContent = genre.trim();
+        } 
+        else {
+            output.textContent="Error retrieving genre :(";
+        }
+    });
+</script>
+
+<h2>(3) Playlist Tool</h2>
+<p>From <a href="https://openwhyd.org">Openwhyd</a>.</p>
+<button id="load">Load Tracks</button>
+<input id="user" value="input username" />
+<pre id="out"></pre>
+<script>
+document.getElementById("load").onclick = async () => {
+  const u = document.getElementById("user").value.trim();
+  const url = `https://openwhyd.org/${encodeURIComponent(u)}?format=json`;
+
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    document.getElementById("out").textContent =
+      JSON.stringify(data, null, 2);
+  } catch (e) {
+    document.getElementById("out").textContent = "Error: " + e;
+  }
+};
+</script>
+
+<h2>(4) Explore Radio Stations</h2>
+<p>From <a href="https://www.radio-browser.info">RadioBrowser</a>.</p>
+
+<button id="load">Load Stations</button>
+<div id="out">Your stations will appear here.</div>
+
+<script>
+document.getElementById("load").addEventListener("click", async () => {
+  document.getElementById("out").textContent = "Loading...";
+
+  try {
+    // Using 'uuid' fields from the API
+    const res = await fetch("https://api.radio-browser.info/json/stations?limit=5");
+    const data = await res.json();
+
+    let html = "";
+    data.forEach(st => {
+      html += `
+        <p>
+          <strong>${st.name}</strong><br>
+          Stream: <a href="${st.url_resolved}" target="_blank">${st.url_resolved}</a><br>
+          UUID: ${st.stationuuid}
+        </p>`;
+    });
+
+    document.getElementById("out").innerHTML = html;
+
+  } catch (err) {
+    document.getElementById("out").textContent = "Error: " + err;
+  }
+});
+</script>
+
+<h2>(5) iTunes Search</h2>
+<p>From <a href="https://www.apple.com/itunes">Apple</a>.</p>
+<label>
+  Search for an artist or song: <input type="text" id="term" value="artist name or song title">
+</label>
+<button id="search">Search</button>
+
+<div id="results"></div>
+
+<script>
+document.getElementById("search").addEventListener("click", async () => {
+  const term = encodeURIComponent(document.getElementById("term").value.trim());
+  if (!term) return;
+
+  const url = `https://itunes.apple.com/search?term=${term}&limit=10`;
+
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(res.status);
+
+    const data = await res.json();
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = "";
+
+    if (!data.results.length) {
+      resultsDiv.textContent = "No results found";
+      return;
+    }
+
+    data.results.forEach(item => {
+      const div = document.createElement("div");
+      div.style.marginBottom = "10px";
+
+      div.innerHTML = `
+        <strong>${item.trackName || item.collectionName}</strong> by ${item.artistName}<br>
+        <a href="${item.previewUrl}" target="_blank">Preview</a>
+      `;
+      resultsDiv.appendChild(div);
+    });
+
+  } catch (err) {
+    document.getElementById("results").textContent = "Error: " + err;
+  }
+});
+</script>
+
+<h1> </h1>
+<div id="footer">
+    <small>&copy; 2025 Marianne Benyamin, Sophia Caparros, Caroline Knight Henderson</small></footer></div>
+
+</body>
 </html>
