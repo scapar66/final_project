@@ -118,7 +118,7 @@ document.getElementById('search-btn').addEventListener('click', async () => {
     <div id="genre-output">Click to get started!</div>
 <script>
     async function fetchRandomGenre() {
-        var url="https://binaryjazz.us/wp-json/genrenator/v1/genre";
+        var url="https://binaryjazz.us/wp-json/genrenator/v1/genre/25";
         try {
             var response=await fetch(url);
             var data=await response.json();
