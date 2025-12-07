@@ -7,69 +7,88 @@
         <title>Events</title>
     </head>
     <script>
-            // Function to populate the dropdown with every unique genre type (handles compound genres by splitting them)
-            function populateGenreDropdown() {
-                const table = document.getElementById('table1');
-                const rows = table.querySelectorAll('tbody tr');
-                const uniqueGenreTypes = new Set(); // Stores individual types like "Pop" or "Hip-Hop"
+    // Function to populate the dropdown with every unique genre type (handles compound genres by splitting them)
+    function populateGenreDropdown() {
+        const table = document.getElementById('table1');
+        if (!table) return; // Exit if table not found
 
-                rows.forEach(row => {
-                    const cells = row.querySelectorAll('td');
-                    // Genre is the 3rd column (index 2)
-                    if (cells.length > 2) { 
-                        const cellText = cells.textContent.trim();
-                        // Split compound genres by common separators and clean up
-                        const genresInCell = cellText.split(/\s*\/\s*|\s*,\s*/).map(genre => genre.trim()).filter(Boolean);
-                        
-                        genresInCell.forEach(genreType => {
-                            uniqueGenreTypes.add(genreType);
-                        });
-                    }
-                });
+        const rows = table.querySelectorAll('tbody tr');
+        const uniqueGenreTypes = new Set(); // Stores individual types like "Pop" or "Hip-Hop"
 
-                const selectElement = document.getElementById('genre-select');
-                
-                // Add unique genre types to the dropdown in alphabetical order
-                Array.from(uniqueGenreTypes).sort().forEach(genreType => {
-                    const option = document.createElement('option');
-                    option.value = genreType;
-                    option.textContent = genreType;
-                    selectElement.appendChild(option);
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            // Genre is the 3rd column (index 2)
+            if (cells.length > 2) {
+                // CORRECTED: Access the specific cell using index [2]
+                const cellText = cells[2].textContent.trim(); 
+                // Split compound genres by common separators and clean up
+                const genresInCell = cellText.split(/\s*\/\s*|\s*,\s*/).map(genre => genre.trim()).filter(Boolean);
+
+                genresInCell.forEach(genreType => {
+                    uniqueGenreTypes.add(genreType);
                 });
             }
+        });
 
-            // Filters the table when the user changes the dropdown selection using a 'contains' logic
-            function filterTableByGenre() {
-                const selectElement = document.getElementById('genre-select');
-                // The single genre type selected by the user (e.g., "Pop")
-                const filterValue = selectElement.value; 
-                const table = document.getElementById('table1');
-                const rows = table.querySelectorAll('tbody tr');
-                
-                rows.forEach(row => {
-                    const cells = row.querySelectorAll('td');
-                    if (cells.length > 2) {
-                        // Get the full genre text from the current row (index 2) (e.g., "Pop / Hip-Hop")
-                        const fullGenreString = cells.textContent.trim();
-                        
-                        // Check if we display all rows OR if the full genre string CONTAINS the selected single genre type
-                        // We use .includes() for the 'contains' logic
-                        const matchesFilter = filterValue === 'All' || fullGenreString.includes(filterValue);
-                        
-                        if (matchesFilter) {
-                            row.style.display = ''; // Show the row
-                        } else {
-                            row.style.display = 'none'; // Hide the row
-                        }
-                    }
-                });
+        const selectElement = document.getElementById('genre-select');
+        if (!selectElement) return; // Exit if dropdown not found
+
+        // Add the default 'All' option first
+        const allOption = document.createElement('option');
+        allOption.value = 'All';
+        allOption.textContent = 'All Genres';
+        selectElement.appendChild(allOption);
+
+        // Add unique genre types to the dropdown in alphabetical order
+        Array.from(uniqueGenreTypes).sort().forEach(genreType => {
+            const option = document.createElement('option');
+            option.value = genreType;
+            option.textContent = genreType;
+            selectElement.appendChild(option);
+        });
+    }
+
+    // Filters the table when the user changes the dropdown selection using a 'contains' logic
+    function filterTableByGenre() {
+        const selectElement = document.getElementById('genre-select');
+        // The single genre type selected by the user (e.g., "Pop")
+        const filterValue = selectElement.value;
+
+        const table = document.getElementById('table1');
+        const rows = table.querySelectorAll('tbody tr');
+
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            if (cells.length > 2) {
+                // Get the full genre text from the current row (index 2) (e.g., "Pop / Hip-Hop")
+                // CORRECTED: Access the specific cell using index [2]
+                const fullGenreString = cells[2].textContent.trim();
+
+                // Check if we display all rows OR if the full genre string CONTAINS the selected single genre type
+                // We use .includes() for the 'contains' logic
+                const matchesFilter = filterValue === 'All' || fullGenreString.includes(filterValue);
+
+                if (matchesFilter) {
+                    row.style.display = ''; // Show the row
+                } else {
+                    row.style.display = 'none'; // Hide the row
+                }
             }
+        });
+    }
 
-            // Call the populate function once the DOM is loaded
-            document.addEventListener('DOMContentLoaded', (event) => {
-                populateGenreDropdown();
-            });
-        </script>
+    // --- EXECUTION LOGIC ---
+    // 1. Call populate function when the page loads
+    document.addEventListener('DOMContentLoaded', (event) => {
+        populateGenreDropdown();
+        // 2. Add the filter function as an event listener to the select element
+        const selectElement = document.getElementById('genre-select');
+        if (selectElement) {
+            selectElement.addEventListener('change', filterTableByGenre);
+        }
+    });
+
+</script>
     <body>
         <div id="header">
             <h1>Music is Fun!</h1>
