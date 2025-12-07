@@ -169,32 +169,42 @@ document.getElementById("load").onclick = async () => {
 <button id="load">Load Stations</button>
 <div id="out">Your stations will appear here.</div>
 
-<script>
-document.getElementById("load").addEventListener("click", async () => {
-  document.getElementById("out").textContent = "Loading...";
-
-  try {
-    // Using 'uuid' fields from the API
-    const res = await fetch("https://api.radio-browser.info/json/stations?limit=5");
-    const data = await res.json();
-
-    let html = "";
-    data.forEach(st => {
-      html += `
-        <p>
-          <strong>${st.name}</strong><br>
-          Stream: <a href="${st.url_resolved}" target="_blank">${st.url_resolved}</a><br>
-          UUID: ${st.stationuuid}
-        </p>`;
+  <script>
+    document.getElementById("load").addEventListener("click", async () => {
+      document.getElementById("out").textContent = "Loading...";
+      try {
+        // Radio Browser API
+        const response = await fetch('http://www.radio-browser.info/webservice', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const data = await response.json();
+        console.log(data);
+        
+        let html = "";
+        // Check if data is an array and has stations
+        if (Array.isArray(data) && data.length > 0) {
+          data.slice(0, 5).forEach(st => {
+            html += `
+              <p>
+                <strong>${st.name || 'Unknown Station'}</strong><br>
+                Stream: <a href="${st.url_resolved || st.url}" target="_blank">${st.url_resolved || st.url}</a><br>
+                UUID: ${st.stationuuid || 'N/A'}
+              </p>`;
+          });
+        } else {
+          html = "<p>No stations found or unexpected data format.</p>";
+        }
+        
+        document.getElementById("out").innerHTML = html;
+      } catch (err) {
+        document.getElementById("out").textContent = "Error: " + err;
+        console.error(err);
+      }
     });
-
-    document.getElementById("out").innerHTML = html;
-
-  } catch (err) {
-    document.getElementById("out").textContent = "Error: " + err;
-  }
-});
-</script>
+  </script>
 
 <h2>(5) iTunes Search</h2>
 <p>From <a href="https://www.apple.com/itunes">Apple</a>.</p>
