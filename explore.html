@@ -25,7 +25,7 @@
 <p>Welcome to our explore page! The tools below will allow you to search for music you already know and love, learn about new and diverse music by connecting with radio stations worldwide, and get inspired to think differently about how you organize your music with a fun random genre generator.</p>
 
 <h3>(1) Artist, Release, and Recording Lookup</h2>
-<p>Search for music with this service provided by the open source music encyclopedia <a href="https://musicbrainz.org">MusicBrainz</a>. It will provide the top 5 most relevant search results.</p>
+<p>Search for music with this service provided by the open source music encyclopedia <a href="https://musicbrainz.org">MusicBrainz</a>. Select artist, release, or recording in the dropdown menu and type the name of the artist, song, or album you would like to search to see the top 5 most relevant results.</p>
 <input type="text" id="search-query" placeholder="Enter search term" />
 <select id="search-type">
   <option value="artist">Artist</option>
@@ -116,7 +116,7 @@ document.getElementById('search-btn').addEventListener('click', async () => {
 
 <h3>(2) The Genrenator</h3>
 <p>The <a href="https://binaryjazz.us/genrenator-api">Binary Jazz</a> genrenator produces unique, random genres that foster imagination and inspire creation. According to its creators, the genrenator has created over 5.5 million genres since 2018.</p>
-    <button id="get-genre">Generate New Genre</button>
+    <button id="get-genre">Genrenate!</button>
     <p> </p>
     <div id="genre-output">your genre will appear here.</div>
 <script>
@@ -149,7 +149,7 @@ document.getElementById('search-btn').addEventListener('click', async () => {
 
 <label for="countryInput">Country Name:</label>
     <input type="text" id="countryInput" value="United States" style="margin-right: 10px;">
-    <button onclick="fetchStations()">Load Stations</button>
+    <button onclick="fetchStations()">Find Stations</button>
     <div id="results">
     </div>
     <script>
