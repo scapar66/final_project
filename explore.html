@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Explore</title>
-s</head>
+</head>
 <body>
     <div id="header">
         <h1>Music is Fun!</h1>
@@ -139,28 +139,6 @@ document.getElementById('search-btn').addEventListener('click', async () => {
             output.textContent="Error retrieving genre :(";
         }
     });
-</script>
-
-<h2>(3) Playlist Tool</h2>
-<p>From <a href="https://openwhyd.org">Openwhyd</a>.</p>
-<button id="load">Load Tracks</button>
-<input id="user" value="input username" />
-<pre id="out"></pre>
-<script>
-document.getElementById("load").onclick = async () => {
-  const u = document.getElementById("user").value.trim();
-  const url = `https://openwhyd.org/${encodeURIComponent(u)}?format=json`;
-
-  try {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(res.status);
-    const data = await res.json();
-    document.getElementById("out").textContent =
-      JSON.stringify(data, null, 2);
-  } catch (e) {
-    document.getElementById("out").textContent = "Error: " + e;
-  }
-};
 </script>
 
 <h2>(4) Explore Radio Stations</h2>
