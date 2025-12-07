@@ -144,47 +144,79 @@ document.getElementById('search-btn').addEventListener('click', async () => {
 </script>
 
 <h3>(3) Explore Radio Stations</h3>
-<p>This service, provided by <a href="https://www.radio-browser.info">RadioBrowser</a>, allows you to explore internet radio and TV stations.</p>
+<p>Explore radio stations across the world with this service from <a href="https://www.radio-browser.info">RadioBrowser</a>. Enter a country into the search bar to see its top 5 radio stations!</p>
 
-<button id="load">Load Stations</button>
-<div id="out">stations will appear here.</div>
-
-  <script>
-    document.getElementById("load").addEventListener("click", async () => {
-      document.getElementById("out").textContent = "Loading...";
-      try {
-        // Radio Browser API
-        const response = await fetch('http://www.radio-browser.info/webservice', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        const data = await response.json();
-        console.log(data);
-        
-        let html = "";
-        // Check if data is an array and has stations
-        if (Array.isArray(data) && data.length > 0) {
-          data.slice(0, 5).forEach(st => {
-            html += `
-              <p>
-                <strong>${st.name || 'Unknown Station'}</strong><br>
-                Stream: <a href="${st.url_resolved || st.url}" target="_blank">${st.url_resolved || st.url}</a><br>
-                UUID: ${st.stationuuid || 'N/A'}
-              </p>`;
-          });
-        } else {
-          html = "<p>No stations found or unexpected data format.</p>";
+<label for="countryInput">Country Name:</label>
+    <input type="text" id="countryInput" value="United States" style="margin-right: 10px;">
+    <button onclick="fetchStations()">Load Stations</button>
+    <div id="results">
+        Wait...
+    </div>
+    <script>
+        const DEFAULT_BASE_URL = "https://de1.api.radio-browser.info"; 
+        const MAX_STATIONS_TO_DISPLAY = 5;
+        function displayMessage(message, type = 'info') {
+            const resultsDiv = document.getElementById('results');
+            let color = '#333';
+            if (type === 'error') color = 'red';
+            if (type === 'success') color = 'green';
+            
+            resultsDiv.innerHTML = `<p style="color: ${color};"><strong>${type.toUpperCase()}:</strong> ${message}</p>`;
         }
-        
-        document.getElementById("out").innerHTML = html;
-      } catch (err) {
-        document.getElementById("out").textContent = "Error: " + err;
-        console.error(err);
-      }
-    });
-  </script>
+        async function getStationsByCountry(baseUrl, countryName) {
+            const encodedCountry = encodeURIComponent(countryName);
+            const endpoint = `/json/stations/bycountry/${encodedCountry}`;
+            const url = baseUrl + endpoint;
+            
+            console.log(`Fetching stations from: ${url}`);
+
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status} (${response.statusText})`);
+            }
+
+            const stations = await response.json();
+            return stations;
+        }
+        async function fetchStations() {
+            const countryInput = document.getElementById('countryInput').value.trim();
+            
+            if (!countryInput) {
+                displayMessage("Please enter a country name.", 'error');
+                return;
+            }
+            displayMessage(`Finding stations for: ${countryInput}...`, 'info');
+            try {
+                const stations = await getStationsByCountry(DEFAULT_BASE_URL, countryInput);
+                if (stations.length === 0) {
+                    displayMessage(`No stations found for "${countryInput}".`, 'info');
+                    return;
+                }
+                let output = `<h3>Top ${Math.min(MAX_STATIONS_TO_DISPLAY, stations.length)} Stations in ${countryInput}</h3>`;
+                output += '<ul>';
+
+                for (let i = 0; i < Math.min(MAX_STATIONS_TO_DISPLAY, stations.length); i++) {
+                    const station = stations[i];
+                    output += `
+                        <li>
+                            <strong>${station.name}</strong> 
+                            <br>
+                            <a href="${station.url}" target="_blank">Listen Now (Click Count: ${station.clickcount})</a>
+                        </li>
+                    `;
+                }
+                output += '</ul>';
+                document.getElementById('results').innerHTML = output;
+                console.log(`Successfully retrieved ${stations.length} stations.`);
+
+            } catch (error) {
+                displayMessage(`Failed to fetch stations: ${error.message}. Check the Console (F12) for details.`, 'error');
+                console.error("Fetch error:", error);
+            }
+        }
+        displayMessage('Enter a country and click to see stations!', 'info');
+    </script>
 
 <h3>(4) iTunes Search</h3>
 <p>From <a href="https://www.apple.com/itunes">Apple</a>.</p>
