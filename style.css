@@ -110,7 +110,7 @@ aside { background: #e9e9e9; flex-grow: 1; } /* Sidebar grows less */
 
 .styled-table tbody tr:hover {
     background-color:#e2fee2 ;
-    color:white;
+
 }
 
 * {
