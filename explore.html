@@ -117,7 +117,7 @@ document.getElementById('search-btn').addEventListener('click', async () => {
 <p>The <a href="https://binaryjazz.us/genrenator-api">Binary Jazz</a> genrenator produces unique, random genres that foster imagination and inspire creation. According to its creators, the genrenator has created over 5.5 million genres since 2018.</p>
     <button id="get-genre">Generate New Genre</button>
     <p> </p>
-    <div id="genre-output">Click to create!</div>
+    <div id="genre-output">your genre will appear here.</div>
 <script>
     async function fetchRandomGenre() {
         var url="https://binaryjazz.us/wp-json/genrenator/v1/genre/25";
@@ -147,7 +147,7 @@ document.getElementById('search-btn').addEventListener('click', async () => {
 <p>This service, provided by <a href="https://www.radio-browser.info">RadioBrowser</a>, allows you to explore internet radio and TV stations.</p>
 
 <button id="load">Load Stations</button>
-<div id="out">Your stations will appear here.</div>
+<div id="out">stations will appear here.</div>
 
   <script>
     document.getElementById("load").addEventListener("click", async () => {
@@ -186,7 +186,7 @@ document.getElementById('search-btn').addEventListener('click', async () => {
     });
   </script>
 
-<h3>(5) iTunes Search</h3>
+<h3>(4) iTunes Search</h3>
 <p>From <a href="https://www.apple.com/itunes">Apple</a>.</p>
 <label>
   Search for an artist or song: <input type="text" id="term" value="artist name or song title">
