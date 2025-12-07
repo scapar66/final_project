@@ -181,15 +181,8 @@ main a:visited {
     text-decoration: wavy underline #009879;
   }
     
-img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 10px;
-  padding: 10px;
-  float: right;
-}
 
-.table-img {
+img {
     min-width: 100px;
     max-height: 200px;
     border-radius: 1px;
