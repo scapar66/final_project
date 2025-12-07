@@ -4,8 +4,72 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="style.css">
-        <title>Home</title>
+        <title>Events</title>
     </head>
+    <script>
+            // Function to populate the dropdown with every unique genre type (handles compound genres by splitting them)
+            function populateGenreDropdown() {
+                const table = document.getElementById('table1');
+                const rows = table.querySelectorAll('tbody tr');
+                const uniqueGenreTypes = new Set(); // Stores individual types like "Pop" or "Hip-Hop"
+
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    // Genre is the 3rd column (index 2)
+                    if (cells.length > 2) { 
+                        const cellText = cells.textContent.trim();
+                        // Split compound genres by common separators and clean up
+                        const genresInCell = cellText.split(/\s*\/\s*|\s*,\s*/).map(genre => genre.trim()).filter(Boolean);
+                        
+                        genresInCell.forEach(genreType => {
+                            uniqueGenreTypes.add(genreType);
+                        });
+                    }
+                });
+
+                const selectElement = document.getElementById('genre-select');
+                
+                // Add unique genre types to the dropdown in alphabetical order
+                Array.from(uniqueGenreTypes).sort().forEach(genreType => {
+                    const option = document.createElement('option');
+                    option.value = genreType;
+                    option.textContent = genreType;
+                    selectElement.appendChild(option);
+                });
+            }
+
+            // Filters the table when the user changes the dropdown selection using a 'contains' logic
+            function filterTableByGenre() {
+                const selectElement = document.getElementById('genre-select');
+                // The single genre type selected by the user (e.g., "Pop")
+                const filterValue = selectElement.value; 
+                const table = document.getElementById('table1');
+                const rows = table.querySelectorAll('tbody tr');
+                
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    if (cells.length > 2) {
+                        // Get the full genre text from the current row (index 2) (e.g., "Pop / Hip-Hop")
+                        const fullGenreString = cells.textContent.trim();
+                        
+                        // Check if we display all rows OR if the full genre string CONTAINS the selected single genre type
+                        // We use .includes() for the 'contains' logic
+                        const matchesFilter = filterValue === 'All' || fullGenreString.includes(filterValue);
+                        
+                        if (matchesFilter) {
+                            row.style.display = ''; // Show the row
+                        } else {
+                            row.style.display = 'none'; // Hide the row
+                        }
+                    }
+                });
+            }
+
+            // Call the populate function once the DOM is loaded
+            document.addEventListener('DOMContentLoaded', (event) => {
+                populateGenreDropdown();
+            });
+        </script>
     <body>
         <div id="header">
             <h1>Music is Fun!</h1>
@@ -18,12 +82,23 @@
         </div>
         <div class="main-container">
         <main>
-            <h2>Events</h2>
+            <h1>Events</h1>
             <p>This page will cover upcoming new albums, major music festivals, and major award shows. 
                 While we tried to capture relevant and popular artists and events, there are many
             more that have yet to be announced. Keep a look out for events and albums to be announced in 2026!</p>
-          <table class="styled-table">
-        <caption>Upcoming New Albums</caption>
+            <p>In the first table you will find upcoming new albums. Click the artist name to
+                visit their artist YouTube. In the second table you can see upcoming music festivals. 
+                Click the festival name to visit their festival event page and learn more! Lastly, the 
+                Upcoming Music Award Shows Table shows some popular music award shows, although many have
+                dates that are yet to be announced. 
+            </p><h3>Filter Albums by Specific Genre Type:</h3>
+    <select id="genre-select" onchange="filterTableByGenre()">
+        <option value="All">All Genres</option>
+    </select>
+           <br>
+
+          <table id="table1" class="styled-table">
+        <caption><strong>Upcoming New Albums</strong></caption>
         <thead>
             <tr>
                 <th>Artist Name</th>
@@ -34,85 +109,85 @@
         </thead>
         <tbody>
             <tr>
-                <td>Pink Floyd</td>
+                <td><a href="https://www.youtube.com/channel/UCY2qt3dw2TQJxvBrDiYGHdQ">Pink Floyd</a></td> 
                 <td>Wish You Were Here 50</td>
                 <td>Classic Rock</td>
                 <td>December 12, 2025</td>
             </tr>
             <tr>
-                <td>Fred Again..</td>
+                <td><a href="https://www.youtube.com/@Fredagainagain">Fred Again..</a></td>
                 <td>USB002</td>
                 <td>Electronic / Dance</td>
                 <td>December 12, 2025</td>
             </tr>
             <tr>
-                <td>Juliana Hatfield</td>
+                <td><a href="https://www.youtube.com/watch?v=txHTFbz8AnU&list=RDtxHTFbz8AnU&start_radio=1">Juliana Hatfield</a></td>
                 <td>Lightning Might Strike</td>
                 <td>Adult Alternative / Indie Rock</td>
                 <td>December 12, 2025</td>
             </tr>
             <tr>
-                <td>The Kid Laroi</td>
+                <td><a href="https://www.youtube.com/@TheKidLAROI">The Kid Laroi</a></td>
                 <td>Before I Forget</td>
                 <td>Pop / Hip-Hop</td>
                 <td>January 16, 2026</td>
             </tr>
             <tr>
-                <td>Dry Cleaning</td>
+                <td><a href="https://www.youtube.com/channel/UCYAb_yLdag6D098es0-agwg">Dry Cleaning</a></td>
                 <td>Secret Love</td>
                 <td>Indie Rock</td>
                 <td>January 9, 2026</td>
             </tr>
             <tr>
-                <td>Elijah Blake</td>
+                <td><a href="https://www.youtube.com/channel/UCmwYBE6GuUWhQIh1I_L7ONQ">Elijah Blake</a></td>
                 <td>The Gemini</td>
                 <td>R&B</td>
                 <td>January 16, 2026</td>
             </tr>
             <tr>
-                <td>Madison Beer</td>
+                <td><a href="https://www.youtube.com/@MadisonBeer">Madison Beer</a></td>
                 <td>Locket</td>
                 <td>Pop</td>
                 <td>January 16, 2026</td>
             </tr>
             <tr>
-                <td>Joji</td>
+                <td><a href="https://www.youtube.com/@joji">Joji</a></td>
                 <td>Piss in the Wind</td>
                 <td>Alt R&B</td>
                 <td>February 6, 2026</td>
             </tr>
             <tr>
-                <td>Charli xcx</td>
+                <td><a href="https://www.youtube.com/@officialcharlixcx">Charli xcx</a></td>
                 <td>Wuthering Heights</td>
                 <td>Pop</td>
                 <td>February 13, 2026</td>
             </tr>
             <tr>
-                <td>Danny Brown</td>
+                <td><a href="https://www.youtube.com/@dannybrownbruhbruh">Danny Brown</a></td>
                 <td>Stardust</td>
                 <td>Alt Hip-Hop</td>
                 <td>February 20, 2026</td>
             </tr>
              <tr>
-                <td>Naïka</td>
+                <td><a href="https://www.youtube.com/@naikaofficial">Naïka</a></td>
                 <td>ECLESIA</td>
                 <td>R&B / Pop</td>
                 <td>February 20, 2026</td>
             </tr>
             <tr>
-                <td>Hilary Duff</td>
+                <td><a href="https://www.youtube.com/channel/UCSRmCrFvCPomTqjzwoF9MGw">Hilary Duff</a></td>
                 <td>Luck...or Something</td>
                 <td>Pop</td>
                 <td>February 20, 2026</td>
             </tr>
             <tr>
-                <td>Gorillaz</td>
+                <td><a href="https://www.youtube.com/@Gorillaz">Gorillaz</a></td>
                 <td>The Mountain</td>
                 <td>Alternative</td>
                 <td>March 20, 2026</td>
             </tr>
             <tr>
-                <td>Meghan Trainor</td>
+                <td><a href="https://www.youtube.com/@MeghanTrainor">Meghan Trainor</a></td>
                 <td>Toy With Me</td>
                 <td>Pop</td>
                 <td>April 24, 2026</td>
@@ -120,7 +195,7 @@
         </tbody>
     </table>
     <br><br>
-    <table class="styled-table">
+    <table id="table2" class="styled-table">
         <caption>Upcoming Music Festivals</caption>
         <thead>
             <tr>
@@ -136,7 +211,7 @@
             <tr>
                 <td>Indie-Pop</td>
                 <td>December 27, 2025</td>
-                <td>Wild Horses</td>
+                <td><a href="https://www.wildhorsesfest.com">Wild Horses</a></td>
                 <td>Mumford & Sons, Lord Huron, Sierra Ferrell, and Lily Meola</td>
                 <td>PETCO Park, San Diego, CA</td>
                 <td>From $100</td>
@@ -144,7 +219,7 @@
             <tr>
                 <td>EDM</td>
                 <td>March 27–29, 2026</td>
-                <td>Ultra Music Festival</td>
+                <td><a href="https://ultramusicfestival.com">Ultra Music Festival</a></td>
                 <td>Armin Van Buuren, DJ Snake, Major Lazer, Steve Aoki</td>
                 <td>Bayfront Park, Miami, FL</td>
                 <td>3-day GA pass is currently $479.15</td>
@@ -152,7 +227,7 @@
             <tr>
                 <td>Multi-Genre</td>
                 <td>April 10-12, 2026, April 17-19, 2026</td>
-                <td>Coachella</td>
+                <td><a href="https://coachella.com">Coachella</a></td>
                 <td>Justin Bieber, The Strokes, Major Lazer, 
                     Sabrina Carpenter, Foster the People, 
                     The xx, Labrinth, Disclosure, Young Thug</td>
@@ -162,7 +237,7 @@
             <tr>
                 <td>Country/Pop</td>
                 <td>April 24-26, 2026</td>
-                <td>Stagecoach Country Music Festival</td>
+                <td><a href="https://stagecoachfestival.com">Stagecoach Country Music Festival</a></td>
                 <td>Post Malone, Pitbull, Journey, Diplo, 
                     Ludacris, Counting Crows, Teddy Swims, 
                     Noah Cyrus, Third Eye Blind</td>
@@ -172,7 +247,7 @@
             <tr>
                 <td>Multi-Genre</td>
                 <td>June 5-7, 2026</td>
-                <td>Governor's Ball</td>
+                <td><a href="https://www.governorsballmusicfestival.com">Governor's Ball</a></td>
                 <td>Lineup TBA</td>
                 <td>New York, NY</td>
                 <td>Tickets TBA</td>
@@ -180,7 +255,7 @@
             <tr>
                 <td>EDM/Multi-Genre</td>
                 <td>June 11-14, 2026</td>
-                <td>Bonnaroo</td>
+                <td><a href="https://www.bonnaroo.com">Bonnaroo</a></td>
                 <td>Lineup TBA</td>
                 <td>Bonnaroo Farm, Manchester, Tennessee</td>
                 <td>Tickets TBA</td>
@@ -188,7 +263,7 @@
             <tr>
                 <td>Multi-Genre</td>
                 <td>July/August, TBA</td>
-                <td>Lollapalooza</td>
+                <td><a href="https://www.lollapalooza.com">Lollapalooza</a></td>
                 <td>Lineup TBA</td>
                 <td>Chicago, IL</td>
                 <td>Tickets TBA</td>
@@ -196,14 +271,14 @@
             <tr>
                 <td>Multi-Genre</td>
                 <td>October 2026, TBA</td>
-                <td>Austin City Limits</td>
+                <td><a href="https://www.aclfestival.com">Austin City Limits</a></td>
                 <td>Lineup TBA</td>
                 <td>Austin, TX</td>
                 <td>Tickets TBA</td>
             </tr>
         </tbody>
     </table><br><br>
-    <table class="styled-table">
+    <table id="table3" class="styled-table">
         <caption>Upcoming Music Award Shows</caption>
         <thead>
             <tr>
@@ -244,7 +319,7 @@
         </aside>
     </div>
      <div id="footer">
-            <small>&copy; 2025 2025 Marianne Benyamin, Sophia Caparros, Caroline Knight Henderson</small></footer>
+            <small>&copy; 2025 Sophia Caparros, Caroline Henderson, Marianne Benyamin</small></footer>
     </div>
 
     </body>
