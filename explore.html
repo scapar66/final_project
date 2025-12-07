@@ -16,11 +16,13 @@
         <a href="streaming.html">Streaming</a>
     </div>
     </div>
-<h1>Explore</h1>
+     <div class="main-container">
+    <main>
+<h2>Explore</h2>
 
 <h2></h2>
 
-<h2>(1) Artist, Release, and Recording Lookup</h2>
+<h3>(1) Artist, Release, and Recording Lookup</h2>
 <p>From <a href="https://musicbrainz.org">MusicBrainz</a>.</p>
 <input type="text" id="search-query" placeholder="Enter search term" />
 <select id="search-type">
@@ -111,7 +113,7 @@ document.getElementById('search-btn').addEventListener('click', async () => {
 });
 </script>
 
-<h2>(2) The Genrenator</h2>
+<h3>(2) The Genrenator</h3>
 <p>From <a href="https://binaryjazz.us/genrenator-api">Binary Jazz</a>.</p>
     <button id="get-genre">Generate New Genre</button>
     <p> </p>
@@ -141,7 +143,7 @@ document.getElementById('search-btn').addEventListener('click', async () => {
     });
 </script>
 
-<h2>(4) Explore Radio Stations</h2>
+<h3>(3) Explore Radio Stations</h3>
 <p>From <a href="https://www.radio-browser.info">RadioBrowser</a>.</p>
 
 <button id="load">Load Stations</button>
@@ -184,7 +186,7 @@ document.getElementById('search-btn').addEventListener('click', async () => {
     });
   </script>
 
-<h2>(5) iTunes Search</h2>
+<h3>(5) iTunes Search</h3>
 <p>From <a href="https://www.apple.com/itunes">Apple</a>.</p>
 <label>
   Search for an artist or song: <input type="text" id="term" value="artist name or song title">
@@ -230,9 +232,14 @@ document.getElementById("search").addEventListener("click", async () => {
 });
 </script>
 
+        
 <h1> </h1>
+
+</main>
+     </div>
 <div id="footer">
-    <small>&copy; 2025 Marianne Benyamin, Sophia Caparros, Caroline Knight Henderson</small></footer></div>
+    <small>&copy; 2025 Marianne Benyamin, Sophia Caparros, Caroline Knight Henderson</small></footer>
+</div>
 
 </body>
 </html>
