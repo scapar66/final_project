@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="icon" type="image" href="media/faviconOG.png" alt="Music is Fun! logo of a bird head shaped like a treble clef.">
+    <link rel="icon" type="image/x-icon" href="media/faviconOG.png" alt="Music is Fun! logo of a bird head shaped like a treble clef.">
     <title>Explore - Music is Fun!</title>
 </head>
 <body>
@@ -17,13 +17,13 @@
         <a href="streaming.html">Streaming</a>
     </div>
     </div>
-     <div class="main-container">
-    <main>
+<div class="main-container">
+<main>
 <h2>Explore</h2>
 
 <p>Welcome to our explore page! The tools below will allow you to search for music you already know and love, learn about new and diverse music by connecting with radio stations worldwide, and get inspired to think differently about how you organize your music with a fun random genre generator.</p>
 
-<h3>Music Lookup</h2>
+<h3>Music Lookup</h3>
 <p>Search for music with this service provided by the open source music encyclopedia <a href="https://musicbrainz.org">MusicBrainz</a>. Choose an artist, release (album), or recording (track/song) from the dropdown menu and type what you would like to search to see the top 5 most relevant results. MusicBrainz is community-maintained, so if you can’t find what you’re looking for you can add it yourself! Just follow the simple instructions available <a href="https://musicbrainz.org/doc/How_to_Contribute">here</a>.</p>
 <input type="text" id="search-query" placeholder="Enter search term" />
 <select id="search-type">
@@ -216,61 +216,12 @@ document.getElementById('search-btn').addEventListener('click', async () => {
         }
     });
 </script>
-
-        
-<h3>iTunes Search</h3>
-<p>From <a href="https://www.apple.com/itunes">Apple</a>.</p>
-<label>
-  Search for an artist or song: <input type="text" id="term" value="artist name or song title">
-</label>
-<button id="search">Search</button>
-
-<div id="results"></div>
-
-<script>
-document.getElementById("search").addEventListener("click", async () => {
-  const term = encodeURIComponent(document.getElementById("term").value.trim());
-  if (!term) return;
-
-  const url = `https://itunes.apple.com/search?term=${term}&limit=10`;
-
-  try {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(res.status);
-
-    const data = await res.json();
-    const resultsDiv = document.getElementById("results");
-    resultsDiv.innerHTML = "";
-
-    if (!data.results.length) {
-      resultsDiv.textContent = "No results found";
-      return;
-    }
-
-    data.results.forEach(item => {
-      const div = document.createElement("div");
-      div.style.marginBottom = "10px";
-
-      div.innerHTML = `
-        <strong>${item.trackName || item.collectionName}</strong> by ${item.artistName}<br>
-        <a href="${item.previewUrl}" target="_blank">Preview</a>
-      `;
-      resultsDiv.appendChild(div);
-    });
-
-  } catch (err) {
-    document.getElementById("results").textContent = "Error: " + err;
-  }
-});
-</script>
-
-        
-<h1> </h1>
-
+<br><br>
 </main>
-     </div>
+</div>
+    
 <div id="footer">
-    <small>Page coded by Caroline Knight Henderson | &copy; 2025 Marianne Benyamin, Sophia Caparros, Caroline Knight Henderson</small></footer>
+    <small>Page coded by Caroline Knight Henderson | &copy; 2025 Marianne Benyamin, Sophia Caparros, Caroline Knight Henderson</small>
 </div>
 
 </body>
