@@ -26,8 +26,14 @@ nav, main, aside {
     border-radius: 5px;
 }
 
-main { background: #fff; flex-grow: 3; } /* Main content grows more */
+main { ; flex-grow: 3; } /* Main content grows more */
 aside { background: #e9e9e9; flex-grow: 1; } /* Sidebar grows less */
+
+* {
+  box-sizing: border-box;  /*This is a universal selector, this code ensures that when 
+   a width or height ise set for any element, the dimensions will be 
+    the total space the element occupies, including any internal padding and borders. */
+}
 
 /* Nav bar */
 
@@ -44,13 +50,13 @@ aside { background: #e9e9e9; flex-grow: 1; } /* Sidebar grows less */
   padding: 10px 20px;
   text-align: center;
   text-decoration:none;
-  color: #263535;
+  color: #012938;
 }
 
 .navbar a:hover {
   border-radius:5px;
-  background-color: #02735c;
-  color: #c5e8e8;
+  background-color: #e15845;
+  color: #fff;
 }
 
 /* HEADER AND FOOTER */
@@ -62,17 +68,14 @@ aside { background: #e9e9e9; flex-grow: 1; } /* Sidebar grows less */
 }
 
 #header {
-  background: #87a590; 
-  color: black; 
-  border-bottom: 5px solid #263535;
+  background: #00678e; 
+  border-bottom: 5px solid #003c53;
   padding: 10px;
 }
 
 #footer {
-  clear: left;
-  background:#a5c3c3;
-  color: black; 
-  border-bottom: 5px solid #263535;
+  background:#abe2e2; 
+  border-bottom: 5px solid #00678e;
   padding: 10px;
   text-align: center;
 }
@@ -82,9 +85,10 @@ aside { background: #e9e9e9; flex-grow: 1; } /* Sidebar grows less */
 .styled-table {
     width: 90%;
     margin: 0 auto;
-    border-collapse: collapse;
+    border-collapse: collapse; /* Determines whether adjacent borders are shared or separated*/
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     background-color: #fff;
+    text-align: center;
 }
 
 .styled-table caption {
@@ -93,50 +97,27 @@ aside { background: #e9e9e9; flex-grow: 1; } /* Sidebar grows less */
 
 .styled-table thead tr {
     background-color: #009879;
-    color: #ffffff;
-    text-align: left;
+    color: #fff;
 }
 
 .styled-table th, .styled-table td {
     padding: 12px 15px;
-    border: 1px solid #dddddd;
+    border: 1px solid #ddd;
 }
 
 .styled-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+    background-color: #d9faf5;
 }
 
 .styled-table tbody tr:hover {
-    background-color:#e2fee2 ;
+    background-color: #e2fee2;
 
-}
-
-* {
-  box-sizing: border-box;  /*This is a universal selector, this code ensures that when 
-   a width or height ise set for any element, the dimensions will be 
-    the total space the element occupies, including any internal padding and borders. */
 }
 
 th, td {
   border: 5px solid #a5c3c3;
   padding: 10px;   
   border-radius: 4px;
-  text-align: center;
-}
-
-button {
-    padding: 10px;
-    margin: 0 auto;
-    cursor: pointer;
-    background-color: #f9f9f9;
-    border: 1px solid #dddddd;
-    border-radius: 4px;
-    text-align: center;
-}
-
-button:hover {
-    background-color: #009879;
-    color: white;
 }
 
 /* MAIN CONTENT */
@@ -152,12 +133,39 @@ body {
   padding: 20px;
 }
 
+p {
+    margin-top:15px;
+}
+
 h1 {
   color: white;
 }
 
 h2, h3, h4, p, ul {
     text-align: left;
+}
+
+
+/* Buttons */
+
+button {
+    padding: 10px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+}
+
+button:hover {
+    background-color: #009879;
+    color: white;
+}
+
+/* API */
+
+#genre-output {
+  color: #e15845
 }
 
 /* Hyperlink Styling */
@@ -177,8 +185,8 @@ main a:selected {
     text-decoration: wavy underline #009879;
   }
 main a:visited {
-    color:#009879;
-    text-decoration: wavy underline #009879;
+    color:#e15845;
+    text-decoration: wavy underline #e15845;
   }
     
 
