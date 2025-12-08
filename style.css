@@ -196,7 +196,12 @@ img {
     border-radius: 1px;
     padding: 1px;
 }
-    
+
+.inlineimg-right {
+  float: right;
+  margin-right: 15px;
+}
+
 .sidebar {
   width: 30%;
   background-color: #f1f1f1;
