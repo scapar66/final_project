@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Explore</title>
+    <link rel="icon" type="image" href="media/faviconOG.png">
+    <title>Explore - Music is Fun!</title>
 </head>
 <body>
     <div id="header">
@@ -20,11 +21,9 @@
     <main>
 <h2>Explore</h2>
 
-<h2></h2>
-
 <p>Welcome to our explore page! The tools below will allow you to search for music you already know and love, learn about new and diverse music by connecting with radio stations worldwide, and get inspired to think differently about how you organize your music with a fun random genre generator.</p>
 
-<h3>(1) Music Lookup</h2>
+<h3>Music Lookup</h2>
 <p>Search for music with this service provided by the open source music encyclopedia <a href="https://musicbrainz.org">MusicBrainz</a>. Choose an artist, release (album), or recording (track/song) from the dropdown menu and type what you would like to search to see the top 5 most relevant results. MusicBrainz is community-maintained, so if you can’t find what you’re looking for you can add it yourself! Just follow the simple instructions available <a href="https://musicbrainz.org/doc/How_to_Contribute">here</a>.</p>
 <input type="text" id="search-query" placeholder="Enter search term" />
 <select id="search-type">
@@ -114,7 +113,7 @@ document.getElementById('search-btn').addEventListener('click', async () => {
 });
 </script>
 
-<h3>(2) Radio Station Explorer</h3>
+<h3>Radio Station Explorer</h3>
 <p>Explore over 50,000 radio stations in nearly 600 languages with <a href="https://www.radio-browser.info">RadioBrowser</a>. Enter a country into the search bar below to see its top 5 radio stations. According to RadioBrowser, 238 distinct country names are listed in the database. If you are interested in exploring more stations and/or more detailed information, you can access RadioBrowser’s entire database <a href="http://db.radio-browser.info">here</a>. For more ways to engage with this tool, see <a href="https://www.radio-browser.info/users">this list of apps</a> that implement this service.</p>
 
 <label for="countryInput">Country Name:</label>
@@ -188,7 +187,7 @@ document.getElementById('search-btn').addEventListener('click', async () => {
     </script>
 
 
-<h3>(3) The Genrenator</h3>
+<h3>The Genrenator</h3>
 <p>The <a href="https://binaryjazz.us/genrenator-api">Binary Jazz</a> genrenator produces unique, random genres that foster imagination and inspire creation. According to its creators, the genrenator has created over 5.5 million genres since 2018. If you like this tool, consider checking out Binary Jazz’s <a href="https://binaryjazz.us/episodes">podcast</a>.</p>
     <button id="get-genre">Genrenate!</button>
     <p> </p>
@@ -219,7 +218,7 @@ document.getElementById('search-btn').addEventListener('click', async () => {
 </script>
 
         
-<h3>(4) iTunes Search</h3>
+<h3>iTunes Search</h3>
 <p>From <a href="https://www.apple.com/itunes">Apple</a>.</p>
 <label>
   Search for an artist or song: <input type="text" id="term" value="artist name or song title">
@@ -271,7 +270,7 @@ document.getElementById("search").addEventListener("click", async () => {
 </main>
      </div>
 <div id="footer">
-    <small>&copy; 2025 Marianne Benyamin, Sophia Caparros, Caroline Knight Henderson</small></footer>
+    <small>Page coded by Caroline Knight Henderson | &copy; 2025 Marianne Benyamin, Sophia Caparros, Caroline Knight Henderson</small></footer>
 </div>
 
 </body>
