@@ -24,8 +24,8 @@
 
 <p>Welcome to our explore page! The tools below will allow you to search for music you already know and love, learn about new and diverse music by connecting with radio stations worldwide, and get inspired to think differently about how you organize your music with a fun random genre generator.</p>
 
-<h3>(1) Artist, Release, and Recording Lookup</h2>
-<p>Search for music with this service provided by the open source music encyclopedia <a href="https://musicbrainz.org">MusicBrainz</a>. Select artist, release, or recording in the dropdown menu and type the name of the artist, song, or album you would like to search to see the top 5 most relevant results.</p>
+<h3>(1) Music Lookup</h2>
+<p>Search for music with this service provided by the open source music encyclopedia <a href="https://musicbrainz.org">MusicBrainz</a>. Choose an artist, release (album), or recording (track/song) from the dropdown menu and type what you would like to search to see the top 5 most relevant results. MusicBrainz is community-maintained, so if you can’t find what you’re looking for you can add it yourself! Just follow the simple instructions available <a href="https://musicbrainz.org/doc/How_to_Contribute">here</a>.</p>
 <input type="text" id="search-query" placeholder="Enter search term" />
 <select id="search-type">
   <option value="artist">Artist</option>
@@ -114,38 +114,8 @@ document.getElementById('search-btn').addEventListener('click', async () => {
 });
 </script>
 
-<h3>(2) The Genrenator</h3>
-<p>The <a href="https://binaryjazz.us/genrenator-api">Binary Jazz</a> genrenator produces unique, random genres that foster imagination and inspire creation. According to its creators, the genrenator has created over 5.5 million genres since 2018.</p>
-    <button id="get-genre">Genrenate!</button>
-    <p> </p>
-    <div id="genre-output">your genre will appear here.</div>
-<script>
-    async function fetchRandomGenre() {
-        var url="https://binaryjazz.us/wp-json/genrenator/v1/genre/25";
-        try {
-            var response=await fetch(url);
-            var data=await response.json();
-            return data[0];
-        } 
-        catch (error) {
-            console.error("error:", error);
-            return null;
-        }
-    }
-    document.getElementById("get-genre").addEventListener("click", async () => {
-        var genre=await fetchRandomGenre();
-        var output=document.getElementById("genre-output");
-        if (genre) {
-            output.textContent = genre.trim();
-        } 
-        else {
-            output.textContent="Error retrieving genre :(";
-        }
-    });
-</script>
-
-<h3>(3) Explore Radio Stations</h3>
-<p>Explore radio stations across the world with this service from <a href="https://www.radio-browser.info">RadioBrowser</a>. Enter a country into the search bar to see its top 5 radio stations!</p>
+<h3>(2) Radio Station Explorer</h3>
+<p>Explore over 50,000 radio stations in nearly 600 languages with <a href="https://www.radio-browser.info">RadioBrowser</a>. Enter a country into the search bar below to see its top 5 radio stations. According to RadioBrowser, 238 distinct country names are listed in the database. If you are interested in exploring more stations and/or more detailed information, you can access RadioBrowser’s entire database <a href="http://db.radio-browser.info">here</a>. For more ways to engage with this tool, see <a href="https://www.radio-browser.info/users">this list of apps</a> that implement this service.</p>
 
 <label for="countryInput">Country Name:</label>
     <input type="text" id="countryInput" value="United States" style="margin-right: 10px;">
@@ -217,6 +187,38 @@ document.getElementById('search-btn').addEventListener('click', async () => {
         }
     </script>
 
+
+<h3>(3) The Genrenator</h3>
+<p>The <a href="https://binaryjazz.us/genrenator-api">Binary Jazz</a> genrenator produces unique, random genres that foster imagination and inspire creation. According to its creators, the genrenator has created over 5.5 million genres since 2018. If you like this tool, consider checking out Binary Jazz’s <a href="https://binaryjazz.us/episodes">podcast</a>.</p>
+    <button id="get-genre">Genrenate!</button>
+    <p> </p>
+    <div id="genre-output"></div>
+<script>
+    async function fetchRandomGenre() {
+        var url="https://binaryjazz.us/wp-json/genrenator/v1/genre/25";
+        try {
+            var response=await fetch(url);
+            var data=await response.json();
+            return data[0];
+        } 
+        catch (error) {
+            console.error("error:", error);
+            return null;
+        }
+    }
+    document.getElementById("get-genre").addEventListener("click", async () => {
+        var genre=await fetchRandomGenre();
+        var output=document.getElementById("genre-output");
+        if (genre) {
+            output.textContent = genre.trim();
+        } 
+        else {
+            output.textContent="Error retrieving genre :(";
+        }
+    });
+</script>
+
+        
 <h3>(4) iTunes Search</h3>
 <p>From <a href="https://www.apple.com/itunes">Apple</a>.</p>
 <label>
