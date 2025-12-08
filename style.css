@@ -141,11 +141,6 @@ h1 {
   color: white;
 }
 
-h2, h3, h4, p, ul {
-    text-align: left;
-}
-
-
 /* Buttons */
 
 button {
@@ -180,12 +175,10 @@ main a:hover {
     text-decoration: wavy underline #0092c8;
   }
 
-  }
 main a:visited {
     color:#e15845;
     text-decoration: wavy underline #e15845;
   }
-    
 
 img {
     min-width: 100px;
@@ -204,5 +197,3 @@ img {
   background-color: #f1f1f1;
   padding: 20px;
 }
-
-    
