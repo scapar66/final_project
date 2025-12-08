@@ -25,7 +25,7 @@
 
 <h3>Music Lookup</h3>
 <p>Search for music with this service provided by the open source music encyclopedia <a href="https://musicbrainz.org">MusicBrainz</a>. Choose an artist, release (album), or recording (track/song) from the dropdown menu and type what you would like to search to see the top 5 most relevant results. MusicBrainz is community-maintained, so if you can’t find what you’re looking for you can add it yourself! Just follow the simple instructions available <a href="https://musicbrainz.org/doc/How_to_Contribute">here</a>.</p>
-<input type="text" id="search-query" placeholder="Enter search term" />
+<input type="text" id="search-query" placeholder="Type search term"/>
 <select id="search-type">
   <option value="artist">Artist</option>
   <option value="release">Release</option>
@@ -114,10 +114,10 @@ document.getElementById('search-btn').addEventListener('click', async () => {
 </script>
 
 <h3>Radio Station Explorer</h3>
-<p>Explore over 50,000 radio stations in nearly 600 languages with <a href="https://www.radio-browser.info">RadioBrowser</a>. Enter a country into the search bar below to see its top 5 radio stations. According to RadioBrowser, 238 distinct country names are listed in the database. If you are interested in exploring more stations and/or more detailed information, you can access RadioBrowser’s entire database <a href="http://db.radio-browser.info">here</a>. For more ways to engage with this tool, see <a href="https://www.radio-browser.info/users">this list of apps</a> that implement this service.</p>
+<p>Explore over 50,000 radio stations in nearly 600 languages with <a href="https://www.radio-browser.info">RadioBrowser</a>. Enter a country into the search bar below to see its top 5 radio stations. There are 238 distinct country names listed in the database according to RadioBrowser, so don't be afraid to search far and wide. If you are interested in exploring more stations and/or more detailed information about the stations such as genre tags and more specific geographic location, you can access RadioBrowser’s entire database <a href="http://db.radio-browser.info">here</a>. For more ways to engage with this tool, see <a href="https://www.radio-browser.info/users">this list of apps</a> that implement this service.</p>
 
 <label for="countryInput">Country Name:</label>
-    <input type="text" id="countryInput" value="United States" style="margin-right: 10px;">
+    <input type="text" id="countryInput"="United States" style="margin-right: 10px;">
     <button onclick="fetchStations()">Find Stations</button>
     <div id="results">
     </div>
