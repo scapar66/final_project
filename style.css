@@ -122,15 +122,8 @@ th, td {
 
 /* MAIN CONTENT */
 
-@font-face {
-    font-family:AHGrotesk;
-    src:url('AlteHaasGroteskRegular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-
 body {
-  font-family: AHGrotesk;
+  font-family: Arial, Helvetica, sans-serif;
   margin: 0;
 }
 
