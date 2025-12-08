@@ -24,91 +24,57 @@
 <p>Welcome to our explore page! The tools below will allow you to search for music you already know and love, learn about new and diverse music by connecting with radio stations worldwide, and get inspired to think differently about how you organize your music with a fun random genre generator.</p>
 
 <h3>Music Lookup</h3>
-<p>Search for music with this service provided by the open source music encyclopedia <a href="https://musicbrainz.org">MusicBrainz</a>. Choose an artist, release (album), or recording (track/song) from the dropdown menu and type what you would like to search to see the top 5 most relevant results. MusicBrainz is community-maintained, so if you can’t find what you’re looking for you can add it yourself! Just follow the simple instructions available <a href="https://musicbrainz.org/doc/How_to_Contribute">here</a>.</p>
-<input type="text" id="search-query" placeholder="Type search term"/>
+    <p>Search for music with this service provided by the open source music encyclopedia <a href="https://musicbrainz.org">MusicBrainz</a>. Choose an artist, release (album), or recording (track/song) from the dropdown menu and type what you would like to search to see the top 5 most relevant results. MusicBrainz is community-maintained, so if you can’t find what you’re looking for you can add it yourself! Just follow the simple instructions available <a href="https://musicbrainz.org/doc/How_to_Contribute">here</a>.</p>
+
+<label for="search-query">Name or Title:</label>
+<input type="text" id="search-query"/>
+
 <select id="search-type">
   <option value="artist">Artist</option>
   <option value="release">Release</option>
   <option value="recording">Recording</option>
 </select>
-<button id="search-btn">Search</button>
-
+<button id="search-btn">Find Music!</button>
 <div id="result" class="result-list"></div>
-<div id="details" class="details"></div>
 
 <script>
-const BASE_URL = 'https://musicbrainz.org/ws/2';
-const USER_AGENT = 'MyMusicApp/1.0 ( my-email@example.com )';
+const BASE_URL="https://musicbrainz.org/ws/2";
+const USER_AGENT="INFO 654 Project (chend227@pratt.edu)";
 
 async function searchMB(query, type) {
-  const url = `${BASE_URL}/${type}?query=${encodeURIComponent(query)}&fmt=json&limit=5`;
-  const resp = await fetch(url, { headers: { 'User-Agent': USER_AGENT, 'Accept': 'application/json' } });
-  if (!resp.ok) throw new Error('Network response was not ok');
+  const url=`${BASE_URL}/${type}?query=${encodeURIComponent(query)}&fmt=json&limit=5`;
+  const resp=await fetch(url, { headers: { 
+      "User-Agent": USER_AGENT, "Accept": "application/json" 
+      }});
+  if (!resp.ok) throw new Error("Bad network response.");
   return await resp.json();
 }
 
-async function getMBDetails(type, id) {
-  const inc = type === 'artist' ? 'releases+aliases' : type === 'release' ? 'artist-credits+recordings' : 'artist-credits+releases';
-  const url = `${BASE_URL}/${type}/${id}?fmt=json&inc=${inc}`;
-  const resp = await fetch(url, { headers: { 'User-Agent': USER_AGENT, 'Accept': 'application/json' } });
-  if (!resp.ok) throw new Error('Network response was not ok');
-  return await resp.json();
-}
-
-document.getElementById('search-btn').addEventListener('click', async () => {
-  const query = document.getElementById('search-query').value.trim();
-  const type = document.getElementById('search-type').value;
-  const resultDiv = document.getElementById('result');
-  const detailsDiv = document.getElementById('details');
-  resultDiv.innerHTML = 'Searching...';
-  detailsDiv.innerHTML = '';
+document.getElementById("search-btn").addEventListener("click", async () => {
+  const query=document.getElementById("search-query").value.trim();
+  const type=document.getElementById("search-type").value;
+  const resultDiv=document.getElementById("result");
+  resultDiv.innerHTML="Please wait...";
 
   try {
-    const data = await searchMB(query, type);
-    const items = data[type + 's'] || [];
-    if (items.length === 0) {
-      resultDiv.innerHTML = 'No results found.';
+    const data=await searchMB(query, type);
+    const items=data[type+"s"] || [];
+    if (items.length===0) {
+      resultDiv.innerHTML="No results found :( Add your music using the link above!";
       return;
-    }
-    resultDiv.innerHTML = '';
-    items.forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'result-item';
-      div.textContent = item.name || item.title;
-      div.addEventListener('click', async () => {
-        detailsDiv.innerHTML = 'Loading...';
-        try {
-          const details = await getMBDetails(type, item.id);
-          if (type === 'artist') {
-            detailsDiv.innerHTML = `
-              <h2>${details.name}</h2>
-              <p><strong>Country:</strong> ${details.country || 'Unknown'}</p>
-              <p><strong>Aliases:</strong> ${details.aliases ? details.aliases.map(a=>a.name).join(', ') : 'None'}</p>
-              <p><strong>Releases:</strong> ${details.releases ? details.releases.length : 0}</p>
-            `;
-          } else if (type === 'release') {
-            detailsDiv.innerHTML = `
-              <h2>${details.title}</h2>
-              <p><strong>Artist:</strong> ${details['artist-credit'] ? details['artist-credit'].map(a => a.name).join(', ') : 'Unknown'}</p>
-              <p><strong>Date:</strong> ${details.date || 'Unknown'}</p>
-            `;
-          } else if (type === 'recording') {
-            detailsDiv.innerHTML = `
-              <h2>${details.title}</h2>
-              <p><strong>Artist:</strong> ${details['artist-credit'] ? details['artist-credit'].map(a => a.name).join(', ') : 'Unknown'}</p>
-              <p><strong>Releases:</strong> ${details.releases ? details.releases.map(r => r.title).join(', ') : 'None'}</p>
-            `;
-          }
-        } catch (err) {
-          detailsDiv.textContent = 'Error loading details: ' + err.message;
-          detailsDiv.classList.add('error');
-        }
+  }
+    let outputHtml="<ul>";
+      items.forEach(item => {
+        const itemName=item.name || item.title || "Result unavailable";
+        outputHtml+=`<li>${itemName}</li>`;
       });
-      resultDiv.appendChild(div);
-    });
+      outputHtml+="</ul>";
+  
+  resultDiv.innerHTML=outputHtml;
+
   } catch (err) {
-    resultDiv.innerHTML = 'Error: ' + err.message;
-    resultDiv.classList.add('error');
+    resultDiv.innerHTML="Error"+err.message;
+    resultDiv.classList.add("error");
   }
 });
 </script>
@@ -117,71 +83,70 @@ document.getElementById('search-btn').addEventListener('click', async () => {
 <p>Explore over 50,000 radio stations in nearly 600 languages with <a href="https://www.radio-browser.info">RadioBrowser</a>. Enter a country into the search bar below to see its top 5 radio stations. There are 238 distinct country names listed in the database according to RadioBrowser, so don't be afraid to search far and wide. If you are interested in exploring more stations and/or more detailed information about the stations such as genre tags and more specific geographic location, you can access RadioBrowser’s entire database <a href="http://db.radio-browser.info">here</a>. For more ways to engage with this tool, see <a href="https://www.radio-browser.info/users">this list of apps</a> that implement this service.</p>
 
 <label for="countryInput">Country Name:</label>
-    <input type="text" id="countryInput"="United States" style="margin-right: 10px;">
-    <button onclick="fetchStations()">Find Stations</button>
+    <input type="text" id="countryInput">
+    <button onclick="fetchStations()">Find Stations!</button>
     <div id="results">
     </div>
     <script>
-        const DEFAULT_BASE_URL = "https://de1.api.radio-browser.info"; 
-        const MAX_STATIONS_TO_DISPLAY = 5;
-        function displayMessage(message, type = 'info') {
-            const resultsDiv = document.getElementById('results');
-            let color = '#333';
-            if (type === 'error') color = 'red';
-            if (type === 'success') color = 'green';
+        const DEFAULT_BASE_URL="https://de1.api.radio-browser.info"; 
+        const MAX_STATIONS_TO_DISPLAY=5;
+        function displayMessage(message, type="info") {
+            const resultsDiv=document.getElementById("results");
+            let color="#333";
+            if (type==="error") color="red";
+            if (type==="success") color="green";
             
-            resultsDiv.innerHTML = `<p style="color: ${color};"><strong>${type.toUpperCase()}:</strong> ${message}</p>`;
+            resultsDiv.innerHTML= `<p style="color: ${color};"><strong>${type.toUpperCase()}:</strong> ${message}</p>`;
         }
         async function getStationsByCountry(baseUrl, countryName) {
-            const encodedCountry = encodeURIComponent(countryName);
-            const endpoint = `/json/stations/bycountry/${encodedCountry}`;
-            const url = baseUrl + endpoint;
+            const encodedCountry=encodeURIComponent(countryName);
+            const endpoint=`/json/stations/bycountry/${encodedCountry}`;
+            const url=baseUrl+endpoint;
             
             console.log(`Fetching stations from: ${url}`);
 
-            const response = await fetch(url);
+            const response=await fetch(url);
 
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status} (${response.statusText})`);
             }
 
-            const stations = await response.json();
+            const stations=await response.json();
             return stations;
         }
         async function fetchStations() {
-            const countryInput = document.getElementById('countryInput').value.trim();
+            const countryInput=document.getElementById("countryInput").value.trim();
             
             if (!countryInput) {
-                displayMessage("Please enter a country name.", 'error');
+                displayMessage("Please enter a country name.", "error");
                 return;
             }
-            displayMessage(`Finding stations for: ${countryInput}...`, 'info');
+            displayMessage(`Finding stations: ${countryInput}...`);
             try {
-                const stations = await getStationsByCountry(DEFAULT_BASE_URL, countryInput);
-                if (stations.length === 0) {
-                    displayMessage(`No stations found for "${countryInput}".`, 'info');
+                const stations=await getStationsByCountry(DEFAULT_BASE_URL, countryInput);
+                if (stations.length===0) {
+                    displayMessage(`No stations found in "${countryInput}".`, "info");
                     return;
                 }
-                let output = `<h3>Top ${Math.min(MAX_STATIONS_TO_DISPLAY, stations.length)} Stations in ${countryInput}</h3>`;
-                output += '<ul>';
+                let output=`<h3>Top ${Math.min(MAX_STATIONS_TO_DISPLAY, stations.length)} Stations in ${countryInput}</h3>`;
+                output+="<ul>";
 
-                for (let i = 0; i < Math.min(MAX_STATIONS_TO_DISPLAY, stations.length); i++) {
-                    const station = stations[i];
-                    output += `
+                for (let i=0; i < Math.min(MAX_STATIONS_TO_DISPLAY, stations.length); i++) {
+                    const station=stations[i];
+                    output+=`
                         <li>
                             <strong>${station.name}</strong> 
                             <br>
                             <a href="${station.url}" target="_blank">Listen Now (Click Count: ${station.clickcount})</a>
-                        </li>
-                    `;
+                        </li>`;
                 }
-                output += '</ul>';
-                document.getElementById('results').innerHTML = output;
+                output +="</ul>";
+                document.getElementById("results").innerHTML=output;
                 console.log(`Successfully retrieved ${stations.length} stations.`);
 
             } catch (error) {
-                displayMessage(`Failed to fetch stations: ${error.message}. Check the Console (F12) for details.`, 'error');
-                console.error("Fetch error:", error);
+                displayMessage(`Failed to fetch stations: ${error.message}. Check the Console (F12) for details.`, "error");
+                console.error("error:", error);
             }
         }
     </script>
@@ -216,12 +181,12 @@ document.getElementById('search-btn').addEventListener('click', async () => {
         }
     });
 </script>
+<br><br>
 
 <aside>
 <h3>AI Usage PLACEHOLDER/FORMATTING TEST</h3>
 <p>TK: ADD DESCRIPTION</p>
 </aside>
-    
 </main>
 </div>
     
