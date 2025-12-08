@@ -180,9 +180,6 @@ main a:hover {
     text-decoration: wavy underline #0092c8;
   }
 
-main a:selected {
-    color:#009879;
-    text-decoration: wavy underline #009879;
   }
 main a:visited {
     color:#e15845;
