@@ -65,10 +65,10 @@ document.getElementById("search-btn").addEventListener("click", async () => {
         const item=items[i]
         const itemName=item.name || item.title || "Result unavailable";
         outputHtml+=`<li>${itemName}</li>`;
-      }
-      outputHtml+="</ul>";
-  resultDiv.innerHTML=outputHtml;
-  } catch (err) {
+    }
+    outputHtml+="</ul>";
+      resultDiv.innerHTML=outputHtml;
+    } catch (err) {
     resultDiv.innerHTML="Error"+err.message;
     resultDiv.classList.add("error");
   }});
@@ -115,10 +115,10 @@ document.getElementById("search-btn").addEventListener("click", async () => {
                     <strong>${station.name}</strong> 
                     <a href="${station.url}" target="_blank"> — Listen Now!</a> 
                     <ul>
-                        <li>stream homepage: ${station.homepage}</li>
-                        <li>votes: ${station.votes}</li>
-                        <li>clicks: ${station.clickcount}</li>
-                        <li>tags: ${station.tags}</li>
+                        <li>Homepage: ${station.homepage}</li>
+                        <li>Votes: ${station.votes}</li>
+                        <li>Clicks: ${station.clickcount}</li>
+                        <li>Tags: ${station.tags}</li>
                     </ul>
                 </li>`;
             }
@@ -142,8 +142,8 @@ document.getElementById("search-btn").addEventListener("click", async () => {
             const data=await response.json();
             return data[0];
         } 
-        catch (error) {return null;
-        }}
+        catch (error) {return null;}
+        }
     document.getElementById("get-genre").addEventListener("click", async () => {
         const genre=await fetchRandomGenre();
         const output=document.getElementById("genre-output");
