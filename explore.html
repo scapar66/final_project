@@ -51,7 +51,7 @@ async function searchMB(query, type) {
 }
 
 document.getElementById("search-btn").addEventListener("click", async () => {
-  const query=document.getElementById("search-query").value.trim();
+  const query=document.getElementById("search-query").value;
   const type=document.getElementById("search-type").value;
   const resultDiv=document.getElementById("result");
   resultDiv.innerHTML="Please wait...";
@@ -59,15 +59,17 @@ document.getElementById("search-btn").addEventListener("click", async () => {
   try {
     const data=await searchMB(query, type);
     const items=data[type+"s"] || [];
+    const MAX_RESULTS=5;
     if (items.length===0) {
       resultDiv.innerHTML="No results found :( Add your music using the link above!";
       return;
   }
     let outputHtml="<ul>";
-      items.forEach(item => {
+    for (let i=0; i<Math.min(items.length, MAX_RESULTS); i++) {
+        const item=items[i]
         const itemName=item.name || item.title || "Result unavailable";
         outputHtml+=`<li>${itemName}</li>`;
-      });
+      }
       outputHtml+="</ul>";
   
   resultDiv.innerHTML=outputHtml;
@@ -80,113 +82,87 @@ document.getElementById("search-btn").addEventListener("click", async () => {
 </script>
 
 <h3>Radio Station Explorer</h3>
-<p>Explore over 50,000 radio stations in nearly 600 languages with <a href="https://www.radio-browser.info">RadioBrowser</a>. Enter a country into the search bar below to see its top 5 radio stations. There are 238 distinct country names listed in the database according to RadioBrowser, so don't be afraid to search far and wide. If you are interested in exploring more stations and/or more detailed information about the stations such as genre tags and more specific geographic location, you can access RadioBrowser’s entire database <a href="http://db.radio-browser.info">here</a>. For more ways to engage with this tool, see <a href="https://www.radio-browser.info/users">this list of apps</a> that implement this service.</p>
+    <p>Explore over 50,000 radio stations in nearly 600 languages with <a href="https://www.radio-browser.info">RadioBrowser</a>. Enter a country into the search bar below to see its top 5 radio stations. There are 238 distinct country names listed in the database according to RadioBrowser, so don't be afraid to search far and wide. We have included links to the stations and the click count If you are interested in exploring more stations and/or more detailed information about the stations such as genre tags and more specific geographic location, you can access RadioBrowser’s entire database <a href="http://db.radio-browser.info">here</a>. For more ways to engage with this tool, see <a href="https://www.radio-browser.info/users">this list of apps</a> that implement this service.</p>
 
 <label for="countryInput">Country Name:</label>
     <input type="text" id="countryInput">
     <button onclick="fetchStations()">Find Stations!</button>
-    <div id="results">
-    </div>
-    <script>
-        const DEFAULT_BASE_URL="https://de1.api.radio-browser.info"; 
-        const MAX_STATIONS_TO_DISPLAY=5;
-        function displayMessage(message, type="info") {
-            const resultsDiv=document.getElementById("results");
-            let color="#333";
-            if (type==="error") color="red";
-            if (type==="success") color="green";
-            
-            resultsDiv.innerHTML= `<p style="color: ${color};"><strong>${type.toUpperCase()}:</strong> ${message}</p>`;
-        }
-        async function getStationsByCountry(baseUrl, countryName) {
-            const encodedCountry=encodeURIComponent(countryName);
-            const endpoint=`/json/stations/bycountry/${encodedCountry}`;
-            const url=baseUrl+endpoint;
-            
-            console.log(`Fetching stations from: ${url}`);
+    <div id="results"></div>
 
-            const response=await fetch(url);
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status} (${response.statusText})`);
+<script>
+    const DEFAULT_BASE_URL="https://de1.api.radio-browser.info"; 
+    const MAX_STATIONS=5;
+    async function getStationsByCountry(baseUrl, countryName) {
+        const encodedCountry=encodeURIComponent(countryName);
+        const endpoint=`/json/stations/bycountry/${encodedCountry}?limit=${MAX_STATIONS}`;
+        const url=baseUrl+endpoint;
+        const response=await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
             }
-
-            const stations=await response.json();
-            return stations;
+            return await response.json();
         }
-        async function fetchStations() {
-            const countryInput=document.getElementById("countryInput").value.trim();
-            
-            if (!countryInput) {
-                displayMessage("Please enter a country name.", "error");
+    async function fetchStations() {
+        const countryInput=document.getElementById("countryInput").value;
+        const resultsDiv=document.getElementById("results");
+        if (!countryInput) {
+            resultsDiv.innerHTML=`<p> Error: Please enter a country name.</p>`;
+            return;
+        }
+        resultsDiv.innerHTML=`<p>Please wait...</p>`;
+        try {
+            const stations=await getStationsByCountry(DEFAULT_BASE_URL, countryInput);
+            if (stations.length===0) {
+                resultsDiv.innerHTML=`<p>No stations found in "${countryInput}".</p>`;
                 return;
             }
-            displayMessage(`Finding stations: ${countryInput}...`);
-            try {
-                const stations=await getStationsByCountry(DEFAULT_BASE_URL, countryInput);
-                if (stations.length===0) {
-                    displayMessage(`No stations found in "${countryInput}".`, "info");
-                    return;
-                }
-                let output=`<h3>Top ${Math.min(MAX_STATIONS_TO_DISPLAY, stations.length)} Stations in ${countryInput}</h3>`;
-                output+="<ul>";
-
-                for (let i=0; i < Math.min(MAX_STATIONS_TO_DISPLAY, stations.length); i++) {
-                    const station=stations[i];
-                    output+=`
-                        <li>
-                            <strong>${station.name}</strong> 
-                            <br>
-                            <a href="${station.url}" target="_blank">Listen Now (Click Count: ${station.clickcount})</a>
-                        </li>`;
-                }
-                output +="</ul>";
-                document.getElementById("results").innerHTML=output;
-                console.log(`Successfully retrieved ${stations.length} stations.`);
-
-            } catch (error) {
-                displayMessage(`Failed to fetch stations: ${error.message}. Check the Console (F12) for details.`, "error");
-                console.error("error:", error);
+        let output=`<ul>`;
+        for (let i=0; i < MAX_STATIONS; i++) {
+            const station=stations[i];
+            output+=`
+                <li>
+                    <strong>${station.name}</strong> 
+                    <br>
+                    <a href="${station.url}" target="_blank">Listen Now!</a> (clicks: ${station.clickcount})
+                </li>`;
             }
+            output +=`</ul>`;
+            resultsDiv.innerHTML=output;
+        } catch (error) {
+            resultsDiv.innerHTML=`<p> Error: Failed to retrieve stations.</p>`;  
         }
-    </script>
-
+    }
+</script>
 
 <h3>The Genrenator</h3>
-<p>The <a href="https://binaryjazz.us/genrenator-api">Binary Jazz</a> genrenator produces unique, random genres that foster imagination and inspire creation. According to its creators, the genrenator has created over 5.5 million genres since 2018. If you like this tool, consider checking out Binary Jazz’s <a href="https://binaryjazz.us/episodes">podcast</a>.</p>
+    <p>The <a href="https://binaryjazz.us/genrenator-api">Binary Jazz</a> genrenator produces unique, random genres that foster imagination and inspire creation. According to its creators, the genrenator has created over 5.5 million genres since 2018. If you like this tool, consider checking out Binary Jazz’s <a href="https://binaryjazz.us/episodes">podcast</a>.</p>
+
     <button id="get-genre">Genrenate!</button>
-    <p> </p>
     <div id="genre-output"></div>
+
 <script>
     async function fetchRandomGenre() {
-        var url="https://binaryjazz.us/wp-json/genrenator/v1/genre/25";
+        var url="https://binaryjazz.us/wp-json/genrenator/v1/genre/2";
         try {
             var response=await fetch(url);
             var data=await response.json();
             return data[0];
         } 
-        catch (error) {
-            console.error("error:", error);
-            return null;
-        }
-    }
+        catch (error) {return null;
+        }}
     document.getElementById("get-genre").addEventListener("click", async () => {
         var genre=await fetchRandomGenre();
         var output=document.getElementById("genre-output");
-        if (genre) {
-            output.textContent = genre.trim();
-        } 
-        else {
-            output.textContent="Error retrieving genre :(";
-        }
+        if (genre) {output.textContent=genre;} 
+        else {output.textContent="Error retrieving genre :(";}
     });
 </script>
-<br><br>
 
 <aside>
 <h3>AI Usage PLACEHOLDER/FORMATTING TEST</h3>
 <p>TK: ADD DESCRIPTION</p>
 </aside>
+
 </main>
 </div>
     
