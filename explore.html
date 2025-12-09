@@ -36,11 +36,9 @@
 </select>
 <button id="search-btn">Find Music!</button>
 <div id="result" class="result-list"></div>
-
 <script>
 const BASE_URL="https://musicbrainz.org/ws/2";
 const USER_AGENT="INFO 654 Project (chend227@pratt.edu)";
-
 async function searchMB(query, type) {
   const url=`${BASE_URL}/${type}?query=${encodeURIComponent(query)}&fmt=json&limit=5`;
   const resp=await fetch(url, { headers: { 
@@ -49,13 +47,11 @@ async function searchMB(query, type) {
   if (!resp.ok) throw new Error(": Please enter a name or title.");
   return await resp.json();
 }
-
 document.getElementById("search-btn").addEventListener("click", async () => {
   const query=document.getElementById("search-query").value;
   const type=document.getElementById("search-type").value;
   const resultDiv=document.getElementById("result");
   resultDiv.innerHTML="Please wait...";
-
   try {
     const data=await searchMB(query, type);
     const items=data[type+"s"] || [];
@@ -71,24 +67,19 @@ document.getElementById("search-btn").addEventListener("click", async () => {
         outputHtml+=`<li>${itemName}</li>`;
       }
       outputHtml+="</ul>";
-  
   resultDiv.innerHTML=outputHtml;
-
   } catch (err) {
     resultDiv.innerHTML="Error"+err.message;
     resultDiv.classList.add("error");
-  }
-});
+  }});
 </script>
 
 <h3>Radio Station Explorer</h3>
-    <p>Explore over 50,000 radio stations in nearly 600 languages with <a href="https://www.radio-browser.info">RadioBrowser</a>. Enter a country into the search bar below to see its top 5 radio stations. There are 238 distinct country names listed in the database according to RadioBrowser, so don't be afraid to search far and wide. We have included links to the stations and the click count If you are interested in exploring more stations and/or more detailed information about the stations such as genre tags and more specific geographic location, you can access RadioBrowser’s entire database <a href="http://db.radio-browser.info">here</a>. For more ways to engage with this tool, see <a href="https://www.radio-browser.info/users">this list of apps</a> that implement this service.</p>
-
+    <p>Explore over 50,000 radio stations in nearly 600 languages with <a href="https://www.radio-browser.info">RadioBrowser</a>. Enter a country into the search bar below to see its top 5 radio stations. There are 238 distinct country names listed in the database according to RadioBrowser, so don't be afraid to search far and wide. We have included information about the number of clicks the station has received in the last 24 hours and links to each station where available. If you are interested in exploring more stations and/or more detailed information about the stations such as genre tags and more specific geographic location, you can access RadioBrowser’s entire database <a href="http://db.radio-browser.info">here</a>. For more ways to engage with this tool, see <a href="https://www.radio-browser.info/users">this list of apps</a> that implement this service.</p>
 <label for="countryInput">Country Name:</label>
     <input type="text" id="countryInput">
     <button onclick="fetchStations()">Find Stations!</button>
     <div id="results"></div>
-
 <script>
     const DEFAULT_BASE_URL="https://de1.api.radio-browser.info"; 
     const MAX_STATIONS=5;
@@ -130,17 +121,14 @@ document.getElementById("search-btn").addEventListener("click", async () => {
             resultsDiv.innerHTML=output;
         } catch (error) {
             resultsDiv.innerHTML=`<p> Error: Failed to retrieve stations.</p>`;  
-        }
-    }
+        }}
 </script>
 
 <h3>The Genrenator</h3>
     <p>The <a href="https://binaryjazz.us/genrenator-api">Binary Jazz</a> genrenator produces unique, random genres that foster imagination and inspire creation. According to its creators, the genrenator has created over 5.5 million genres since 2018. If you like this tool, consider checking out Binary Jazz’s <a href="https://binaryjazz.us/episodes">podcast</a>.</p>
-
     <button id="get-genre">Genrenate!</button>
     <br> </br>
     <div id="genre-output"></div>
-
 <script>
     async function fetchRandomGenre() {
         const url="https://binaryjazz.us/wp-json/genrenator/v1/genre/2";
@@ -163,10 +151,8 @@ document.getElementById("search-btn").addEventListener("click", async () => {
 <h3>AI Use Disclosure</h3>
 <p>The first drafts of these APIs were created using ChatGPT. I first asked it for templates, then asked it to explain each line. This provided a foundation, and I used other online resources to develop and further understand the code. Throughout the process I also used Gemini troubleshoot and answer specific questions that I had difficulty answering with sources with general information.</p> 
 </aside>
-
 </main>
 </div>
-    
 <div id="footer">
     <small>Page coded by Caroline Knight Henderson | &copy; 2025 Marianne Benyamin, Sophia Caparros, Caroline Knight Henderson</small>
 </div>
