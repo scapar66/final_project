@@ -75,7 +75,7 @@ document.getElementById("search-btn").addEventListener("click", async () => {
 </script>
 
 <h3>Radio Station Explorer</h3>
-    <p>Explore over 50,000 radio stations in nearly 600 languages with <a href="https://www.radio-browser.info">RadioBrowser</a>. Enter a country into the search bar below to see its top 5 radio stations. There are 238 distinct country names listed in the database according to RadioBrowser, so don't be afraid to search far and wide. We have included information about the number of clicks the station has received in the last 24 hours and links to each station where available. If you are interested in exploring more stations and/or more detailed information about the stations such as genre tags and more specific geographic location, you can access RadioBrowser’s entire database <a href="http://db.radio-browser.info">here</a>. For more ways to engage with this tool, see <a href="https://www.radio-browser.info/users">this list of apps</a> that implement this service.</p>
+    <p>Explore over 50,000 radio stations in nearly 600 languages with <a href="https://www.radio-browser.info">RadioBrowser</a>. Enter a country into the search bar below to see its top 5 radio stations. There are 238 distinct country names listed in the database according to RadioBrowser, so don't be afraid to search far and wide. We have included links to the streams themselves, the stream homepages, the number of votes and clicks in the last 24 hours recorded by RadioBrowser, and tags where available. If you are interested in exploring more stations and/or more detailed information about the stations such as more specific geographic location, you can access RadioBrowser’s entire database <a href="http://db.radio-browser.info">here</a>. For more ways to engage with this tool, see <a href="https://www.radio-browser.info/users">this list of apps</a> that implement this service.</p>
 <label for="countryInput">Country Name:</label>
     <input type="text" id="countryInput">
     <button onclick="fetchStations()">Find Stations!</button>
@@ -113,8 +113,12 @@ document.getElementById("search-btn").addEventListener("click", async () => {
             output+=`
                 <li>
                     <strong>${station.name}</strong> 
-                    <br>
-                    <a href="${station.url}" target="_blank">Listen Now!</a> (clicks: ${station.clickcount})
+                    <a href="${station.url}" target="_blank"> — Listen Now!</a> 
+                    <ul>
+                        <li>stream homepage: ${station.homepage}</li>
+                        <li>votes: ${station.votes}</li>
+                        <li>clicks: ${station.clickcount}</li>
+                        <li>tags: ${station.tags}</li>
                 </li>`;
             }
             output +=`</ul>`;
