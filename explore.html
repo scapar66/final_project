@@ -46,7 +46,7 @@ async function searchMB(query, type) {
   const resp=await fetch(url, { headers: { 
       "User-Agent": USER_AGENT, "Accept": "application/json" 
       }});
-  if (!resp.ok) throw new Error("Bad network response.");
+  if (!resp.ok) throw new Error(": Please enter a name or title.");
   return await resp.json();
 }
 
@@ -106,7 +106,7 @@ document.getElementById("search-btn").addEventListener("click", async () => {
         const countryInput=document.getElementById("countryInput").value;
         const resultsDiv=document.getElementById("results");
         if (!countryInput) {
-            resultsDiv.innerHTML=`<p> Error: Please enter a country name.</p>`;
+            resultsDiv.innerHTML=`<p>Error: Please enter a country name.</p>`;
             return;
         }
         resultsDiv.innerHTML=`<p>Please wait...</p>`;
@@ -138,6 +138,7 @@ document.getElementById("search-btn").addEventListener("click", async () => {
     <p>The <a href="https://binaryjazz.us/genrenator-api">Binary Jazz</a> genrenator produces unique, random genres that foster imagination and inspire creation. According to its creators, the genrenator has created over 5.5 million genres since 2018. If you like this tool, consider checking out Binary Jazz’s <a href="https://binaryjazz.us/episodes">podcast</a>.</p>
 
     <button id="get-genre">Genrenate!</button>
+    <br> </br>
     <div id="genre-output"></div>
 
 <script>
