@@ -143,17 +143,17 @@ document.getElementById("search-btn").addEventListener("click", async () => {
 
 <script>
     async function fetchRandomGenre() {
-        var url="https://binaryjazz.us/wp-json/genrenator/v1/genre/2";
+        const url="https://binaryjazz.us/wp-json/genrenator/v1/genre/2";
         try {
-            var response=await fetch(url);
-            var data=await response.json();
+            const response=await fetch(url);
+            const data=await response.json();
             return data[0];
         } 
         catch (error) {return null;
         }}
     document.getElementById("get-genre").addEventListener("click", async () => {
-        var genre=await fetchRandomGenre();
-        var output=document.getElementById("genre-output");
+        const genre=await fetchRandomGenre();
+        const output=document.getElementById("genre-output");
         if (genre) {output.textContent=genre;} 
         else {output.textContent="Error retrieving genre :(";}
     });
