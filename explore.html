@@ -20,11 +20,10 @@
 <div class="main-container">
 <main>
 <h2>Explore</h2>
-
 <p>Welcome to our explore page! The tools below will allow you to search for music you already know and love, learn about new and diverse music by connecting with radio stations worldwide, and get inspired to think differently about how you organize your music with a fun random genre generator.</p>
 
 <h3>Music Lookup</h3>
-    <p>Search for music with this service provided by the open source music encyclopedia <a href="https://musicbrainz.org">MusicBrainz</a>. Choose an artist, release (album), or recording (track/song) from the dropdown menu and type what you would like to search to see the top 5 most relevant results. MusicBrainz is community-maintained, so if you can’t find what you’re looking for you can add it yourself! Just follow the simple instructions available <a href="https://musicbrainz.org/doc/How_to_Contribute">here</a>.</p>
+<p>Search for music with this service provided by the open source music encyclopedia <a href="https://musicbrainz.org">MusicBrainz</a>. Choose an artist, release (album), or recording (track/song) from the dropdown menu and type what you would like to search to see the top 5 most relevant results. MusicBrainz is community-maintained, so if you can’t find what you’re looking for you can add it yourself! Just follow the simple instructions available <a href="https://musicbrainz.org/doc/How_to_Contribute">here</a>.</p>
 
 <label for="search-query">Name or Title:</label>
 <input type="text" id="search-query"/>
@@ -75,7 +74,7 @@ document.getElementById("search-btn").addEventListener("click", async () => {
 </script>
 
 <h3>Radio Station Explorer</h3>
-    <p>Explore over 50,000 radio stations in nearly 600 languages with <a href="https://www.radio-browser.info">RadioBrowser</a>. Enter a country into the search bar below to see its top 5 radio stations. There are 238 distinct country names listed in the database according to RadioBrowser, so don't be afraid to search far and wide. We have included links to the streams themselves, the stream homepages, the number of votes and clicks in the last 24 hours recorded by RadioBrowser, and tags where available. If you are interested in exploring more stations and/or more detailed information about the stations such as more specific geographic location, you can access RadioBrowser’s entire database <a href="http://db.radio-browser.info">here</a>. For more ways to engage with this tool, see <a href="https://www.radio-browser.info/users">this list of apps</a> that implement this service.</p>
+<p>Explore over 50,000 radio stations in nearly 600 languages with <a href="https://www.radio-browser.info">RadioBrowser</a>. Enter a country into the search bar below to see its top 5 radio stations. There are 238 distinct country names listed in the database according to RadioBrowser, so don't be afraid to search far and wide. We have included links to the streams themselves, genre tags where available, and the number of votes and clicks in the last 24 hours as recorded by RadioBrowser. If you are interested in exploring more stations and/or more detailed information about the stations such as more specific geographic location, you can access RadioBrowser’s entire database <a href="http://db.radio-browser.info">here</a>. For more ways to engage with this tool, see <a href="https://www.radio-browser.info/users">this list of apps</a> that implement this service.</p>
 <label for="countryInput">Country Name:</label>
     <input type="text" id="countryInput">
     <button onclick="fetchStations()">Find Stations!</button>
@@ -115,7 +114,6 @@ document.getElementById("search-btn").addEventListener("click", async () => {
                     <strong>${station.name}</strong> 
                     <a href="${station.url}" target="_blank"> — Listen Now!</a> 
                     <ul>
-                        <li>Homepage: ${station.homepage}</li>
                         <li>Votes: ${station.votes}</li>
                         <li>Clicks: ${station.clickcount}</li>
                         <li>Tags: ${station.tags}</li>
@@ -130,7 +128,7 @@ document.getElementById("search-btn").addEventListener("click", async () => {
 </script>
 
 <h3>The Genrenator</h3>
-    <p>The <a href="https://binaryjazz.us/genrenator-api">Binary Jazz</a> genrenator produces unique, random genres that foster imagination and inspire creation. According to its creators, the genrenator has created over 5.5 million genres since 2018. If you like this tool, consider checking out Binary Jazz’s <a href="https://binaryjazz.us/episodes">podcast</a>.</p>
+<p>The <a href="https://binaryjazz.us/genrenator-api">Binary Jazz</a> genrenator produces unique, random genres that foster imagination and inspire creation. According to its creators, the genrenator has created over 5.5 million genres since 2018. If you like this tool, consider checking out Binary Jazz’s <a href="https://binaryjazz.us/episodes">podcast</a>.</p>
     <button id="get-genre">Genrenate!</button>
     <br> </br>
     <div id="genre-output"></div>
