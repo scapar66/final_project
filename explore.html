@@ -25,10 +25,10 @@
 <h3>Music Lookup</h3>
 <p>Search for music with this service provided by the open source music encyclopedia <a href="https://musicbrainz.org">MusicBrainz</a>. Choose an artist, release (album), or recording (track/song) from the dropdown menu and type what you would like to search to see the top 5 most relevant results. MusicBrainz is community-maintained, so if you can’t find what you’re looking for you can add it yourself! Just follow the simple instructions available <a href="https://musicbrainz.org/doc/How_to_Contribute">here</a>.</p>
 
-<label for="search-query">Name or Title:</label>
-<input type="text" id="search-query"/>
+<label for="search-query">Name or Title:</label> /*Creates a text label that displays "Name or Title:"*/
+<input type="text" id="search-query"/> /*lets users type text and then the id allows the javascript to pull information based on what the user has entered*/
 
-<select id="search-type">
+<select id="search-type"> /* the javascript code uses the attribute in the document.getElementByID*/
   <option value="artist">Artist</option>
   <option value="release">Release</option>
   <option value="recording">Recording</option>
@@ -130,7 +130,7 @@ document.getElementById("search-btn").addEventListener("click", async () => {
 <h3>Genrenator</h3>
 <p>The <a href="https://binaryjazz.us/genrenator-api">Binary Jazz</a> genrenator produces unique, random genres that foster imagination and inspire creation. According to its creators, the genrenator has created over 5.5 million genres since 2018. If you like this tool, consider checking out Binary Jazz’s <a href="https://binaryjazz.us/episodes">podcast</a>.</p>
     <button id="get-genre">Genrenate!</button>
-    <br> </br>
+    <br> <br>
     <div id="genre-output"></div>
 <script>
     async function fetchRandomGenre() {
